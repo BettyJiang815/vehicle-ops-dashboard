@@ -64,7 +64,7 @@ const KPI = ({ icon: Icon, label, value, suffix, hint, tone = "default", ratio }
 };
 
 const Index = () => {
-  const { rows, events, loading, error, lastSyncedAt, refresh } = useVehicleStatus();
+  const { rows, events, loading, error, lastSyncedAt, demo, refresh } = useVehicleStatus();
   const [statusFilter, setStatusFilter] = useState("all");
   const [typeFilter, setTypeFilter] = useState("all");
   const [siteFilter, setSiteFilter] = useState("all");
@@ -181,6 +181,11 @@ const Index = () => {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            {demo ? (
+              <span className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-medium text-amber-700">
+                演示数据
+              </span>
+            ) : null}
             <span className="hidden items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-500 sm:inline-flex">
               <span
                 className={cn(

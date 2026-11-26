@@ -3,8 +3,10 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import json
 import logging
 import sys
+from pathlib import Path
 
 from .config import load_config
 from .providers import build_provider
@@ -28,6 +30,18 @@ def _print_table(records: list[dict]) -> None:
         )
 
 
+def export_demo(directory: str, records: list[dict]) -> None:
+    """把当前快照写成前端能直接读的 JSON，用于「没有数据库也能看界面」。"""
+    target = Path(directory)
+    target.mkdir(parents=True, exist_ok=True)
+    rows = [{k: v for k, v in rec.items() if k != "payload"} for rec in records]
+    (target / "vehicle_status.json").write_text(
+        json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8"
+    )
+    # 演示模式不编造历史事件
+    (target / "vehicle_events.json").write_text("[]", encoding="utf-8")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="vehicle_ops", description="采集车辆状态并同步到 Supabase"
@@ -35,6 +49,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--config", default="config.json", help="配置文件路径")
     parser.add_argument("--dry-run", action="store_true", help="只打印，不写库")
     parser.add_argument("--no-events", action="store_true", help="不记录变更流水")
+    parser.add_argument("--export", metavar="DIR", help="只导出演示数据到目录（给前端离线跑，不写库）")
     parser.add_argument("-v", "--verbose", action="store_true")
     args = parser.parse_args(argv)
 
@@ -60,6 +75,11 @@ def main(argv: list[str] | None = None) -> int:
 
         if args.dry_run:
             _print_table(records)
+            return 0
+
+        if args.export:
+            export_demo(args.export, records)
+            log.info("演示数据已导出到 %s", args.export)
             return 0
 
         store = SupabaseStore(config.supabase_url, config.supabase_anon_key)

@@ -1,6 +1,7 @@
-import { Activity, CarFront, Clock, ExternalLink, Flag, MapPin, Sparkles, Wifi, WifiOff } from "lucide-react";
+import { CarFront, Clock, ExternalLink, Flag, List, MapPin, Play, Sparkles, Wifi, WifiOff } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { buildLinks } from "@/lib/external-links";
 import {
   STALE_MINUTES,
   STALE_DATA_MINUTES,
@@ -10,10 +11,6 @@ import {
   minutesSince,
   statusStyle,
 } from "@/lib/vehicle-format";
-
-// 可选：配置后卡片会渲染「在源平台查看」入口；留空则整块隐藏。
-// 例如 VITE_VEHICLE_SOURCE_URL=https://your-platform.example.com/vehicles
-const VEHICLE_SOURCE_URL = import.meta.env.VITE_VEHICLE_SOURCE_URL || "";
 
 const TONES = {
   default: "text-slate-700",
@@ -34,6 +31,20 @@ const MetaRow = ({ icon: Icon, label, value, tone = "default" }) => (
   </div>
 );
 
+const LinkBtn = ({ href, icon: Icon, label, title, onClick }) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noreferrer"
+    title={title}
+    onClick={onClick}
+    className="flex flex-1 items-center justify-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-1.5 text-[11px] font-medium text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900"
+  >
+    <Icon className="h-3 w-3" />
+    {label}
+  </a>
+);
+
 export default function VehicleCard({ row, changedAt }) {
   const style = statusStyle(row.status);
   const dataAge = minutesSince(row.collected_at);
@@ -44,15 +55,14 @@ export default function VehicleCard({ row, changedAt }) {
   const missingVersion = !row.autocar_version;
   const alert = missingVersion || row.status === "初始化失败" || row.status === "平台无此车";
   const searchKey = row.name || row.vin;
+  const links = buildLinks(row);
 
-  // 源平台一般不支持 URL 预填车号，所以点开的同时把车号复制到剪贴板，粘一下就能查
-  const handleOpenSource = async () => {
-    if (!VEHICLE_SOURCE_URL) return;
+  const copyName = async () => {
     try {
       await navigator.clipboard.writeText(searchKey);
-      toast.success(`已复制 ${searchKey}，粘贴到源平台搜索框即可`);
+      toast.success(`已复制 ${searchKey}`);
     } catch (e) {
-      toast.message(`在源平台搜索框输入 ${searchKey}`);
+      toast.message(`车号：${searchKey}`);
     }
   };
 
@@ -60,7 +70,7 @@ export default function VehicleCard({ row, changedAt }) {
     <>
       {online ? <Wifi className="h-3.5 w-3.5" /> : <WifiOff className="h-3.5 w-3.5" />}
       在线状态
-      {VEHICLE_SOURCE_URL ? <ExternalLink className="h-2.5 w-2.5 opacity-70" /> : null}
+      {links.source ? <ExternalLink className="h-2.5 w-2.5 opacity-70" /> : null}
     </>
   );
 
@@ -97,7 +107,7 @@ export default function VehicleCard({ row, changedAt }) {
       <div className="mt-3 rounded-lg bg-slate-50/80 px-3 py-2.5 ring-1 ring-inset ring-slate-100">
         <div className="flex items-center justify-between">
           <span className="text-[10px] font-medium uppercase tracking-[0.08em] text-slate-400">
-            固件版本
+            Autocar 版本
           </span>
           {changedAt ? (
             <span className="inline-flex items-center gap-1 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-medium text-amber-700">
@@ -127,13 +137,13 @@ export default function VehicleCard({ row, changedAt }) {
         {row.purpose ? <MetaRow icon={Flag} label="约车目的" value={row.purpose} /> : null}
         <MetaRow icon={Clock} label="今日班次" value={row.slot || "-"} />
         <div className="flex items-center justify-between gap-3 py-1.5">
-          {VEHICLE_SOURCE_URL ? (
+          {links.source ? (
             <a
-              href={VEHICLE_SOURCE_URL}
+              href={links.source}
               target="_blank"
               rel="noreferrer"
-              onClick={handleOpenSource}
-              title={`来源：源平台的「最近上报时间」${row.heartbeat_at ? `，本次上报 ${fmtClock(row.heartbeat_at)}` : ""}。点击打开页面并复制车号`}
+              onClick={copyName}
+              title={`打开车辆平台页并复制车号${row.heartbeat_at ? `（最近上报 ${fmtClock(row.heartbeat_at)}）` : ""}`}
               className="flex items-center gap-1.5 text-[11px] text-slate-400 transition hover:text-slate-600"
             >
               {sourceLabel}
@@ -163,25 +173,22 @@ export default function VehicleCard({ row, changedAt }) {
         </div>
       </div>
 
-      <div className="mt-auto flex items-end justify-between gap-2 pt-3">
-        <div className="min-w-0 text-[10px] leading-relaxed text-slate-400">
-          <div className="truncate" title={row.name}>
-            {row.name || "-"}
-          </div>
-          <div>{row.collected_at ? `采集 ${fmtClock(row.collected_at)}` : "-"}</div>
-        </div>
-        {VEHICLE_SOURCE_URL ? (
-          <a
-            href={VEHICLE_SOURCE_URL}
-            target="_blank"
-            rel="noreferrer"
-            onClick={handleOpenSource}
-            title={`打开源平台（自动复制 ${searchKey}，粘贴即可查）`}
-            className="inline-flex shrink-0 items-center gap-1 rounded-md border border-slate-200 bg-white px-2 py-1 text-[11px] font-medium text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900"
-          >
-            <ExternalLink className="h-3 w-3" />
-            源平台
-          </a>
+      <div className="mt-auto flex items-end justify-between gap-2 pt-3 text-[10px] leading-relaxed text-slate-400">
+        <span className="truncate" title={row.name}>
+          {row.name || "-"}
+        </span>
+        <span className="shrink-0">{row.collected_at ? `采集 ${fmtClock(row.collected_at)}` : "-"}</span>
+      </div>
+
+      <div className="mt-2 flex gap-1.5">
+        {links.monitor ? (
+          <LinkBtn href={links.monitor} icon={Play} label="监控" title="打开监控（最近一次上报时刻的回放）" />
+        ) : null}
+        {links.tasks ? (
+          <LinkBtn href={links.tasks} icon={List} label="任务" title="打开今天的任务列表" />
+        ) : null}
+        {links.source ? (
+          <LinkBtn href={links.source} icon={ExternalLink} label="平台" title="打开车辆平台页（会复制车号）" onClick={copyName} />
         ) : null}
       </div>
     </article>

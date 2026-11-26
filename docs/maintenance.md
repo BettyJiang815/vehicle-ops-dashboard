@@ -13,8 +13,10 @@
 | 改状态文案 | `collector/vehicle_ops/status.py` 的 `STATUS_MAP`；前端配色 `web/src/lib/vehicle-format.js` 的 `STATUS_STYLES` | 出现新状态码时先在这里加映射，否则页面会直接显示英文码 |
 | 改「异常」口径 | `status.is_abnormal()`（Python）+ `isAbnormal()`（JS） | 两边必须同步，否则 KPI 和卡片红边会对不上 |
 | 改在线判定窗口 | `web/src/lib/vehicle-format.js` 的 `STALE_MINUTES`（默认 20 分钟） | 必须大于采集周期，否则每次采集前会集体闪成「离线」 |
+| 改卡片按钮跳转 | `web/src/lib/external-links.js` 或 `.env.local` 里的三个 URL 模板 | 占位符 `{vin} {name} {plate} {heartbeat} {dayStart} {dayEnd}` |
+| 换演示数据 | `web/public/demo/*.json`，用 `python -m vehicle_ops --export ../web/public/demo` 重新生成 | 演示模式只在没配数据库时生效 |
 | 加/改筛选维度 | `web/src/pages/Index.jsx` 的 `*Filter` 状态 + `visibleRows` | 站点筛选用的是 `place` 字段，口径变了要同步 |
-| 改跳转链接 | `web/.env.local` 的 `VITE_WALLE_VEHICLE_URL` | 换平台只改环境变量，不动代码 |
+| 改卡片按钮跳转 | `web/src/lib/external-links.js` 的模板，或 `.env.local` 的 `VITE_MONITOR_URL_TEMPLATE` / `VITE_TASK_URL_TEMPLATE` / `VITE_VEHICLE_SOURCE_URL` | 占位符 `{vin} {name} {plate} {heartbeat} {dayStart} {dayEnd}`，不配就不显示按钮 |
 | 换数据源 | 新建 `collector/vehicle_ops/providers/xxx.py`，实现 `fetch() -> list[Vehicle]`；`providers/__init__.py` 注册；配置里 `provider: xxx` | 存储层和前端完全不用动，这是分层的意义 |
 | 改表结构 | 新增 `supabase/migrations/000N_xxx.sql` | 不要改 0001，已上线库不会重跑；用新文件做增量 |
 | 改权限（谁能看） | 数据库看 `migrations` 里的 RLS 策略；站点看托管平台的访问控制 | 公网场景请把写权限收回服务端 |
@@ -50,6 +52,7 @@
 | --- | --- | --- |
 | 页面白屏 / 控制台报 `VITE_SUPABASE_URL` | 没建 `.env.local` | 复制 `.env.example` 后重跑 `npm run dev` |
 | 页面一直「暂无采集数据」 | 采集没跑过，或 anon key 无写权限 | 先 `--dry-run` 确认采集，再查 RLS 与 grant |
+| 顶部出现「演示数据」标记 | `.env.local` 里没配 `VITE_SUPABASE_URL`，或 `VITE_DEMO_MODE=true` | 要连真库就把 `VITE_DEMO_MODE` 改 false 并填地址 |
 | 数据一直不更新，页面黄条告警 | 采集机器休眠 / 任务未加载 | `launchctl list`、先手动跑一次看日志 |
 | 在线状态时间显示「-」 | 时间格式不认识 | `providers/*.py` 的 `to_iso()` 支持 `YYYY/MM/DD HH:MM:SS`，新格式要补 |
 | 「最近变化」刷屏 | 新旧值没有归一（原始码 vs 中文） | 在 `status.py` 补映射，`build_events` 会自动归一后再比 |

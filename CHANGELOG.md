@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.0
+
+- 新增**演示模式**：不配数据库时自动读 `web/public/demo/*.json`，`npm install && npm run dev` 就能看到完整界面
+- 新增 `python -m vehicle_ops --export <dir>`，用假数据源一键生成前端演示数据
+- 卡片底部新增「监控 / 任务 / 平台」三个外链按钮，地址由 `VITE_MONITOR_URL_TEMPLATE`、`VITE_TASK_URL_TEMPLATE`、`VITE_VEHICLE_SOURCE_URL` 配置，不配则不显示
+- README 重写，按「只看界面 / 带本地库 / 接自己平台」三种跑法组织
+
 ## 1.1.0
 
 - 四层筛选：车型 / 状态 / **站点** / 单车号，每层带计数，支持组合与一键清空
