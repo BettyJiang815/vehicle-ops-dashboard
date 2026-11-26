@@ -25,33 +25,49 @@
 
 ---
 
-## 三种跑法，从最简单开始
+## 下载下来就能跑
 
-### 跑法一：只看界面（不需要数据库，30 秒）
-
-适合：想先看看长什么样、想改样式、没有数据库环境。
+不装数据库、不注册账号、不连任何内网，三条命令看到完整界面：
 
 ```bash
-cd web
-npm install
-npm run dev          # 打开 http://localhost:5173
+git clone https://github.com/BettyJiang815/vehicle-ops-dashboard.git
+cd vehicle-ops-dashboard/web
+npm install && npm run dev      # 浏览器打开 http://localhost:5173
 ```
 
-页面顶部会出现一个黄色的「演示数据」标记。数据来自 `web/public/demo/vehicle_status.json`，也就是**虚拟数据库**：两个 JSON 文件冒充数据库，前端照样跑完整流程。
+打开后是 10 辆演示车，带版本、状态、地点、在线情况，右栏还有几条变更记录。
 
-它能做什么：看布局、试筛选、改配色、调交互。
-它不能做什么：数据是死的，刷新不会变，也不能写入。
+这些数据来自 `web/public/demo/` 下的两个 JSON 文件——**这就是本项目的「虚拟数据库」**：
 
-想换一批演示数据（比如换成 20 辆车）：
+| 文件 | 相当于 | 内容 |
+| --- | --- | --- |
+| `vehicle_status.json` | 数据库里的车辆表 | 10 辆车的最新状态，一辆一条 |
+| `vehicle_events.json` | 变更流水表 | 4 条编造的版本/地点变更 |
+
+页面顶部的黄色「演示数据」标记就是提醒你：现在是假数据在跑。
+
+想把演示数据换成别的样子（车更多、地点不同），改 `collector/config.example.json` 后重新生成：
 
 ```bash
 cd collector
 python3 -m vehicle_ops --config config.example.json --export ../web/public/demo
 ```
 
-这条命令会用内置的假数据源生成新的 JSON，写回 `web/public/demo/`。刷新页面就变了。
+这条命令不碰数据库，只写那两个 JSON。
 
-> 前端会把 JSON 里的时间整体平移到「刚刚」，所以你过几天再打开，也不会看到一堆「数据未更新」的警告。
+---
+
+## 三种跑法，从最简单开始
+
+### 跑法一：只看界面（不需要数据库）
+
+就是上面那条命令。适合先看效果、改样式、调交互。
+
+它能做什么：看布局、试筛选、改配色、改文案。
+它不能做什么：数据是死的，刷新不会变，也存不进新数据。
+
+> 前端会把 JSON 里的时间整体平移到「刚刚」，所以过几天再打开，不会满屏「数据未更新」。
+
 
 ### 跑法二：带一个真数据库（本地，5 分钟）
 

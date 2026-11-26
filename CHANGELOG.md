@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.0
+
+- 全部换成通用命名：`autocar_version` → `firmware_version`，界面上写「固件版本」，代码里不再出现任何厂商专有名词
+- 演示数据扩到 10 辆车，并附带 4 条变更记录，右栏「最近变化」不再是空的
+- README 增加「下载下来就能跑」，明确虚拟数据库就是 `web/public/demo/` 下那两个 JSON
+
 ## 1.2.0
 
 - 新增**演示模式**：不配数据库时自动读 `web/public/demo/*.json`，`npm install && npm run dev` 就能看到完整界面
