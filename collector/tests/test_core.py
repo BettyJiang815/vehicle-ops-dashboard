@@ -57,7 +57,7 @@ class BuildEventsTest(unittest.TestCase):
         base = {
             "vin": "VIN1",
             "alias": "DEMO-001",
-            "autocar_version": "155.1",
+            "firmware_version": "155.1",
             "status": "运行中",
             "place": "站点A",
         }
@@ -68,7 +68,7 @@ class BuildEventsTest(unittest.TestCase):
         self.assertEqual(build_events({}, [self._record()], self.now), [])
 
     def test_version_change(self):
-        existing = {"VIN1": {"vin": "VIN1", "autocar_version": "154.9", "status": "运行中", "place": "站点A"}}
+        existing = {"VIN1": {"vin": "VIN1", "firmware_version": "154.9", "status": "运行中", "place": "站点A"}}
         events = build_events(existing, [self._record()], self.now)
         self.assertEqual(len(events), 1)
         self.assertEqual(events[0]["kind"], "version")
@@ -76,17 +76,17 @@ class BuildEventsTest(unittest.TestCase):
 
     def test_status_normalized_before_compare(self):
         """旧库里是原始码、新记录是中文，不应该被当成业务变化。"""
-        existing = {"VIN1": {"vin": "VIN1", "autocar_version": "155.1", "status": "POST_RUN", "place": "站点A"}}
+        existing = {"VIN1": {"vin": "VIN1", "firmware_version": "155.1", "status": "POST_RUN", "place": "站点A"}}
         self.assertEqual(build_events(existing, [self._record(status="已收车")], self.now), [])
 
     def test_place_change(self):
-        existing = {"VIN1": {"vin": "VIN1", "autocar_version": "155.1", "status": "运行中", "place": "站点B"}}
+        existing = {"VIN1": {"vin": "VIN1", "firmware_version": "155.1", "status": "运行中", "place": "站点B"}}
         events = build_events(existing, [self._record()], self.now)
         self.assertEqual([event["kind"] for event in events], ["place"])
 
     def test_empty_new_value_does_not_raise_event(self):
         """采集偶发缺字段时不要把已知值覆盖成空还记一条变化。"""
-        existing = {"VIN1": {"vin": "VIN1", "autocar_version": "155.1", "status": "运行中", "place": "站点A"}}
+        existing = {"VIN1": {"vin": "VIN1", "firmware_version": "155.1", "status": "运行中", "place": "站点A"}}
         self.assertEqual(build_events(existing, [self._record(place="")], self.now), [])
 
 
@@ -104,9 +104,9 @@ class VehicleTest(unittest.TestCase):
         self.assertNotIn("raw", record)
 
     def test_abnormal_when_version_missing(self):
-        self.assertTrue(is_abnormal({"autocar_version": "", "status": "运行中"}))
-        self.assertTrue(is_abnormal({"autocar_version": "155.1", "status": "初始化失败"}))
-        self.assertFalse(is_abnormal({"autocar_version": "155.1", "status": "运行中"}))
+        self.assertTrue(is_abnormal({"firmware_version": "", "status": "运行中"}))
+        self.assertTrue(is_abnormal({"firmware_version": "155.1", "status": "初始化失败"}))
+        self.assertFalse(is_abnormal({"firmware_version": "155.1", "status": "运行中"}))
 
 
 if __name__ == "__main__":

@@ -18,13 +18,13 @@ log = logging.getLogger("vehicle_ops")
 
 
 def _print_table(records: list[dict]) -> None:
-    header = f"{'车号':<10} {'Autocar 版本':<44} {'状态':<10} {'约车地点':<6} 心跳"
+    header = f"{'车号':<10} {'固件版本':<44} {'状态':<10} {'约车地点':<6} 心跳"
     print(header)
     print("-" * len(header))
     for rec in records:
         flag = "!" if is_abnormal(rec) else " "
         print(
-            f"{rec['alias']:<10} {rec['autocar_version'] or '-':<44} "
+            f"{rec['alias']:<10} {rec['firmware_version'] or '-':<44} "
             f"{rec['status'] or '-':<10} {rec['place'] or '-':<6} "
             f"{rec['heartbeat_at'] or '-'} {flag}"
         )
@@ -38,8 +38,37 @@ def export_demo(directory: str, records: list[dict]) -> None:
     (target / "vehicle_status.json").write_text(
         json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8"
     )
-    # 演示模式不编造历史事件
-    (target / "vehicle_events.json").write_text("[]", encoding="utf-8")
+    # 演示用的变更记录：内容是编的，只为让「最近变化」一栏有东西看
+    now = dt.datetime.now(TZ)
+    events = []
+    for index, rec in enumerate(rows[:3]):
+        events.append(
+            {
+                "vin": rec["vin"],
+                "alias": rec["alias"],
+                "kind": "version",
+                "field": "固件版本",
+                "old_value": "149.demo_legacy_build",
+                "new_value": rec["firmware_version"],
+                "created_at": (now - dt.timedelta(hours=5 - index * 1.5)).isoformat(),
+            }
+        )
+    if len(rows) > 3:
+        events.append(
+            {
+                "vin": rows[3]["vin"],
+                "alias": rows[3]["alias"],
+                "kind": "place",
+                "field": "约车地点",
+                "old_value": "站点A",
+                "new_value": rows[3]["place"],
+                "created_at": (now - dt.timedelta(minutes=50)).isoformat(),
+            }
+        )
+    events.sort(key=lambda item: item["created_at"], reverse=True)
+    (target / "vehicle_events.json").write_text(
+        json.dumps(events, ensure_ascii=False, indent=1), encoding="utf-8"
+    )
 
 
 def main(argv: list[str] | None = None) -> int:

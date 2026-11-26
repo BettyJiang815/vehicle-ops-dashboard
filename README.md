@@ -62,7 +62,7 @@ docker compose up -d            # 起 Postgres + PostgREST，自动建表
 
 cd collector
 cp config.example.json config.json
-python3 -m vehicle_ops --config config.json      # 写 6 辆假车进库
+python3 -m vehicle_ops --config config.json      # 写 10 辆假车进库
 
 cd ../web
 cp .env.example .env.local
@@ -91,7 +91,7 @@ class YourPlatformProvider:
             Vehicle(
                 vin=item["vin"],
                 name=item.get("name", ""),
-                autocar_version=item.get("version", ""),
+                firmware_version=item.get("version", ""),
                 status=item.get("status", ""),
                 place=item.get("city", ""),
                 heartbeat_at=item.get("last_seen"),
@@ -169,7 +169,7 @@ vehicle-ops-dashboard/
 
 | 字段 | 含义 | 注意 |
 | --- | --- | --- |
-| `autocar_version` | 车端固件版本 | 平台版本接口实时取 |
+| `firmware_version` | 车端固件版本 | 平台版本接口实时取 |
 | `status` | 运行中 / 初始化失败 / 已收车…… | 平台状态码翻译；没有实时状态时按班次推算，带 `*` |
 | `place` | 当前约车地点 | 取不到就回落到车辆归属地 |
 | `heartbeat_at` | 最近一次上报时间 | 页面上的「在线 · 3 分钟前」就是它 |

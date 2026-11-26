@@ -76,6 +76,6 @@ def status_label(
 
 def is_abnormal(row: dict) -> bool:
     """前端 KPI「异常车辆」的口径，保持前后端一致。"""
-    if not row.get("autocar_version"):
+    if not row.get("firmware_version"):
         return True
     return row.get("status") in ABNORMAL_STATUSES

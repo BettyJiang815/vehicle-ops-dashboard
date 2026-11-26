@@ -102,7 +102,7 @@ export function statusStyle(label) {
 
 export function isAbnormal(row) {
   if (!row) return false;
-  if (!row.autocar_version) return true;
+  if (!row.firmware_version) return true;
   if (row.status === "初始化失败" || row.status === "平台无此车") return true;
   return false;
 }

@@ -14,7 +14,7 @@ class Vehicle:
     name: str = ""
     vehicle_type: str = ""
     plate: str = ""
-    autocar_version: str = ""
+    firmware_version: str = ""
     overall_version: str = ""
     status: str = ""
     place: str = ""

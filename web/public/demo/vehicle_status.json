@@ -5,14 +5,14 @@
   "name": "demo-001",
   "vehicle_type": "DEMO",
   "plate": "",
-  "autocar_version": "155.demo_flow_decoder",
+  "firmware_version": "155.demo_flow_decoder",
   "overall_version": "155.demo_flow_decoder_whole",
   "status": "运行中",
   "place": "站点A",
   "purpose": "",
   "slot": "",
-  "heartbeat_at": "2026-11-26T15:04:11.894625+08:00",
-  "collected_at": "2026-11-26T15:05:11.895072+08:00"
+  "heartbeat_at": "2026-11-26T15:18:12.956017+08:00",
+  "collected_at": "2026-11-26T15:19:12.956502+08:00"
  },
  {
   "vin": "MOCKDEMO-002",
@@ -20,14 +20,14 @@
   "name": "demo-002",
   "vehicle_type": "DEMO",
   "plate": "",
-  "autocar_version": "155.demo_flow_decoder",
+  "firmware_version": "155.demo_flow_decoder",
   "overall_version": "155.demo_flow_decoder_whole",
   "status": "运行中",
   "place": "站点B",
   "purpose": "",
   "slot": "",
-  "heartbeat_at": "2026-11-26T15:04:11.894625+08:00",
-  "collected_at": "2026-11-26T15:05:11.895072+08:00"
+  "heartbeat_at": "2026-11-26T15:18:12.956017+08:00",
+  "collected_at": "2026-11-26T15:19:12.956502+08:00"
  },
  {
   "vin": "MOCKDEMO-003",
@@ -35,14 +35,14 @@
   "name": "demo-003",
   "vehicle_type": "DEMO",
   "plate": "",
-  "autocar_version": "154.demo_starting_opt",
+  "firmware_version": "154.demo_starting_opt",
   "overall_version": "154.demo_starting_opt_whole",
   "status": "运行中",
   "place": "站点E",
   "purpose": "",
   "slot": "09:00-21:00",
-  "heartbeat_at": "2026-11-26T15:04:11.894625+08:00",
-  "collected_at": "2026-11-26T15:05:11.895072+08:00"
+  "heartbeat_at": "2026-11-26T15:18:12.956017+08:00",
+  "collected_at": "2026-11-26T15:19:12.956502+08:00"
  },
  {
   "vin": "MOCKDEMO-004",
@@ -50,14 +50,14 @@
   "name": "demo-004",
   "vehicle_type": "DEMO",
   "plate": "",
-  "autocar_version": "151.demo_basemodel_v4_2",
+  "firmware_version": "151.demo_basemodel_v4_2",
   "overall_version": "151.demo_basemodel_v4_2_whole",
   "status": "运行中",
   "place": "站点D",
   "purpose": "",
   "slot": "08:00-18:00",
-  "heartbeat_at": "2026-11-26T15:04:11.894625+08:00",
-  "collected_at": "2026-11-26T15:05:11.895072+08:00"
+  "heartbeat_at": "2026-11-26T15:18:12.956017+08:00",
+  "collected_at": "2026-11-26T15:19:12.956502+08:00"
  },
  {
   "vin": "MOCKDEMO-005",
@@ -65,14 +65,14 @@
   "name": "demo-005",
   "vehicle_type": "DEMO",
   "plate": "",
-  "autocar_version": "154.demo_starting_opt",
+  "firmware_version": "154.demo_starting_opt",
   "overall_version": "154.demo_starting_opt_whole",
   "status": "运行中",
   "place": "站点E",
   "purpose": "",
   "slot": "09:00-21:00",
-  "heartbeat_at": "2026-11-26T15:04:11.894625+08:00",
-  "collected_at": "2026-11-26T15:05:11.895072+08:00"
+  "heartbeat_at": "2026-11-26T15:18:12.956017+08:00",
+  "collected_at": "2026-11-26T15:19:12.956502+08:00"
  },
  {
   "vin": "MOCKDEMO-006",
@@ -80,13 +80,73 @@
   "name": "demo-006",
   "vehicle_type": "DEMO",
   "plate": "",
-  "autocar_version": "155.demo_flow_decoder",
+  "firmware_version": "155.demo_flow_decoder",
   "overall_version": "155.demo_flow_decoder_whole",
   "status": "运行中",
   "place": "站点C",
   "purpose": "",
   "slot": "",
-  "heartbeat_at": "2026-11-26T15:04:11.894625+08:00",
-  "collected_at": "2026-11-26T15:05:11.895072+08:00"
+  "heartbeat_at": "2026-11-26T15:18:12.956017+08:00",
+  "collected_at": "2026-11-26T15:19:12.956502+08:00"
+ },
+ {
+  "vin": "MOCKDEMO-007",
+  "alias": "DEMO-007",
+  "name": "demo-007",
+  "vehicle_type": "DEMO",
+  "plate": "",
+  "firmware_version": "151.demo_basemodel_v4_2",
+  "overall_version": "151.demo_basemodel_v4_2_whole",
+  "status": "运行中",
+  "place": "站点B",
+  "purpose": "",
+  "slot": "08:00-18:00",
+  "heartbeat_at": "2026-11-26T15:18:12.956017+08:00",
+  "collected_at": "2026-11-26T15:19:12.956502+08:00"
+ },
+ {
+  "vin": "MOCKDEMO-008",
+  "alias": "DEMO-008",
+  "name": "demo-008",
+  "vehicle_type": "DEMO",
+  "plate": "",
+  "firmware_version": "154.demo_starting_opt",
+  "overall_version": "154.demo_starting_opt_whole",
+  "status": "运行中",
+  "place": "站点E",
+  "purpose": "",
+  "slot": "09:00-21:00",
+  "heartbeat_at": "2026-11-26T15:18:12.956017+08:00",
+  "collected_at": "2026-11-26T15:19:12.956502+08:00"
+ },
+ {
+  "vin": "MOCKDEMO-009",
+  "alias": "DEMO-009",
+  "name": "demo-009",
+  "vehicle_type": "DEMO",
+  "plate": "",
+  "firmware_version": "151.demo_basemodel_v4_2",
+  "overall_version": "151.demo_basemodel_v4_2_whole",
+  "status": "运行中",
+  "place": "站点C",
+  "purpose": "",
+  "slot": "08:00-18:00",
+  "heartbeat_at": "2026-11-26T15:18:12.956017+08:00",
+  "collected_at": "2026-11-26T15:19:12.956502+08:00"
+ },
+ {
+  "vin": "MOCKDEMO-010",
+  "alias": "DEMO-010",
+  "name": "demo-010",
+  "vehicle_type": "DEMO",
+  "plate": "",
+  "firmware_version": "155.demo_flow_decoder",
+  "overall_version": "155.demo_flow_decoder_whole",
+  "status": "运行中",
+  "place": "站点A",
+  "purpose": "",
+  "slot": "",
+  "heartbeat_at": "2026-11-26T15:18:12.956017+08:00",
+  "collected_at": "2026-11-26T15:19:12.956502+08:00"
  }
 ]

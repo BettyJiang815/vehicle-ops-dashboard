@@ -11,7 +11,7 @@
 | `name` | text | 平台真实车名（如 `demo-001`） |
 | `vehicle_type` | text | 车型，用于按车型批量查版本 |
 | `plate` | text | 车牌 |
-| `autocar_version` | text | 车端 Autocar 版本 |
+| `firmware_version` | text | 车端 固件版本 |
 | `overall_version` | text | 整车版本 |
 | `status` | text | 中文状态标签（`运行中` / `初始化失败` / `排班中*` …） |
 | `place` | text | 当前约车地点 |
@@ -26,7 +26,7 @@
 | 列 | 说明 |
 | --- | --- |
 | `kind` | `version` / `status` / `place` |
-| `field` | 展示名，如 `Autocar 版本` |
+| `field` | 展示名，如 `固件版本` |
 | `old_value` / `new_value` | 变化前后（状态已归一成中文） |
 | `created_at` | 发生时间 |
 
@@ -34,15 +34,15 @@
 
 ```sql
 -- 当前全量
-select alias, autocar_version, status, place, heartbeat_at
+select alias, firmware_version, status, place, heartbeat_at
 from vehicle_status order by alias;
 
 -- 今天有哪些异常
-select alias, autocar_version, status from vehicle_status
-where autocar_version = '' or status in ('初始化失败', '平台无此车');
+select alias, firmware_version, status from vehicle_status
+where firmware_version = '' or status in ('初始化失败', '平台无此车');
 
 -- 版本分布
-select autocar_version, count(*) from vehicle_status group by 1 order by 2 desc;
+select firmware_version, count(*) from vehicle_status group by 1 order by 2 desc;
 
 -- 超过 30 分钟没有上报的车
 select alias, heartbeat_at, now() - heartbeat_at as gap

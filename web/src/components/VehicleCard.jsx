@@ -52,7 +52,7 @@ export default function VehicleCard({ row, changedAt }) {
   const online = !dataStale && isOnline(row);
   const beatMinutes = minutesSince(row.heartbeat_at);
   const beatStale = beatMinutes !== null && beatMinutes > STALE_MINUTES;
-  const missingVersion = !row.autocar_version;
+  const missingVersion = !row.firmware_version;
   const alert = missingVersion || row.status === "初始化失败" || row.status === "平台无此车";
   const searchKey = row.name || row.vin;
   const links = buildLinks(row);
@@ -107,7 +107,7 @@ export default function VehicleCard({ row, changedAt }) {
       <div className="mt-3 rounded-lg bg-slate-50/80 px-3 py-2.5 ring-1 ring-inset ring-slate-100">
         <div className="flex items-center justify-between">
           <span className="text-[10px] font-medium uppercase tracking-[0.08em] text-slate-400">
-            Autocar 版本
+            固件版本
           </span>
           {changedAt ? (
             <span className="inline-flex items-center gap-1 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-medium text-amber-700">
@@ -121,9 +121,9 @@ export default function VehicleCard({ row, changedAt }) {
             "mt-1 line-clamp-2 break-all font-mono text-[12.5px] font-semibold leading-[1.5]",
             missingVersion ? "text-rose-600" : "text-slate-900",
           )}
-          title={row.autocar_version}
+          title={row.firmware_version}
         >
-          {row.autocar_version || "无记录"}
+          {row.firmware_version || "无记录"}
         </div>
         {row.overall_version ? (
           <div className="mt-1 truncate text-[10px] text-slate-400" title={row.overall_version}>

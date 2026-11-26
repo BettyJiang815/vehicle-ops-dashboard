@@ -40,7 +40,7 @@ class MockProvider(Provider):
                     name=item.name,
                     vehicle_type=item.name.split("-")[0].upper(),
                     plate="",
-                    autocar_version=version,
+                    firmware_version=version,
                     overall_version=f"{version}_whole",
                     status=status_label(
                         "RUNNING" if online else "",

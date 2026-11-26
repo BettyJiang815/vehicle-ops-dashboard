@@ -30,6 +30,22 @@
     {
       "alias": "DEMO-006",
       "name": "demo-006"
+    },
+    {
+      "alias": "DEMO-007",
+      "name": "demo-007"
+    },
+    {
+      "alias": "DEMO-008",
+      "name": "demo-008"
+    },
+    {
+      "alias": "DEMO-009",
+      "name": "demo-009"
+    },
+    {
+      "alias": "DEMO-010",
+      "name": "demo-010"
     }
   ]
 }

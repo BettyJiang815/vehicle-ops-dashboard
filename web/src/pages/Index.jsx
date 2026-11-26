@@ -105,7 +105,7 @@ const Index = () => {
   const versionGroups = useMemo(() => {
     const map = new Map();
     rows.forEach((row) => {
-      const key = row.autocar_version || "无记录";
+      const key = row.firmware_version || "无记录";
       map.set(key, (map.get(key) || 0) + 1);
     });
     return Array.from(map.entries()).sort((a, b) => b[1] - a[1]);
@@ -132,7 +132,7 @@ const Index = () => {
       if (statusFilter === "offline" && isOnline(row)) return false;
       if (statusFilter === "abnormal" && !isAbnormal(row)) return false;
       if (!text) return true;
-      return [row.alias, row.name, row.place, row.autocar_version, row.plate]
+      return [row.alias, row.name, row.place, row.firmware_version, row.plate]
         .filter(Boolean)
         .some((field) => String(field).toLowerCase().includes(text));
     });
@@ -176,7 +176,7 @@ const Index = () => {
                 运营车辆监控
               </h1>
               <p className="text-[11px] text-slate-400">
-                Autocar 版本 · 运行状态 · 约车地点 · 在线状态
+                固件版本 · 运行状态 · 约车地点 · 在线状态
               </p>
             </div>
           </div>
@@ -238,7 +238,7 @@ const Index = () => {
             hint="无版本 / 初始化失败"
             tone={abnormalCount ? "danger" : "default"}
           />
-          <KPI icon={Gauge} label="在用版本" value={versionGroups.length} suffix="个" hint="不同 Autocar 版本" />
+          <KPI icon={Gauge} label="在用版本" value={versionGroups.length} suffix="个" hint="不同 固件版本" />
         </section>
 
         <section className="rounded-xl border border-slate-200/80 bg-white p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-4">
@@ -503,7 +503,7 @@ const Index = () => {
                         <span className="font-medium text-slate-600">{event.alias || event.vin}</span>
                       </div>
                       <div className="text-slate-500">
-                        {event.kind === "version" ? "Autocar 版本" : event.field}：
+                        {event.kind === "version" ? "固件版本" : event.field}：
                         <span className="text-slate-400 line-through">{prettyStatus(event.old_value)}</span>
                         <span className="mx-1 text-slate-300">→</span>
                         <span className="font-medium text-slate-700">{prettyStatus(event.new_value)}</span>

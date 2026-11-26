@@ -7,7 +7,7 @@ import urllib.request
 
 # 哪些字段变了要记一条事件：(kind, 展示名, 列名, 是否做状态归一)
 FIELD_SPECS = (
-    ("version", "Autocar 版本", "autocar_version", False),
+    ("version", "固件版本", "firmware_version", False),
     ("status", "运行状态", "status", True),
     ("place", "约车地点", "place", False),
 )
@@ -71,7 +71,7 @@ class SupabaseStore:
         return json.loads(raw) if raw.lstrip().startswith(("[", "{")) else raw
 
     def fetch_existing(self) -> dict[str, dict]:
-        rows = self._request("/vehicle_status?select=vin,autocar_version,status,place")
+        rows = self._request("/vehicle_status?select=vin,firmware_version,status,place")
         return {row["vin"]: row for row in rows if isinstance(row, dict) and row.get("vin")}
 
     def upsert(self, records: list[dict]) -> None:

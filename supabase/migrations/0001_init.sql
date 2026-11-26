@@ -10,7 +10,7 @@ create table if not exists public.vehicle_status (
   name             text default '',
   vehicle_type     text default '',
   plate            text default '',
-  autocar_version  text default '',
+  firmware_version  text default '',
   overall_version  text default '',
   status           text default '',
   place            text default '',

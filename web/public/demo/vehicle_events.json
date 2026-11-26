@@ -1,1 +1,38 @@
-[]
+[
+ {
+  "vin": "MOCKDEMO-004",
+  "alias": "DEMO-004",
+  "kind": "place",
+  "field": "约车地点",
+  "old_value": "站点A",
+  "new_value": "站点D",
+  "created_at": "2026-11-26T14:29:12.956934+08:00"
+ },
+ {
+  "vin": "MOCKDEMO-003",
+  "alias": "DEMO-003",
+  "kind": "version",
+  "field": "固件版本",
+  "old_value": "149.demo_legacy_build",
+  "new_value": "154.demo_starting_opt",
+  "created_at": "2026-11-26T13:19:12.956934+08:00"
+ },
+ {
+  "vin": "MOCKDEMO-002",
+  "alias": "DEMO-002",
+  "kind": "version",
+  "field": "固件版本",
+  "old_value": "149.demo_legacy_build",
+  "new_value": "155.demo_flow_decoder",
+  "created_at": "2026-11-26T11:49:12.956934+08:00"
+ },
+ {
+  "vin": "MOCKDEMO-001",
+  "alias": "DEMO-001",
+  "kind": "version",
+  "field": "固件版本",
+  "old_value": "149.demo_legacy_build",
+  "new_value": "155.demo_flow_decoder",
+  "created_at": "2026-11-26T10:19:12.956934+08:00"
+ }
+]
