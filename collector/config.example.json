@@ -1,0 +1,35 @@
+{
+  "_comment": "复制为 config.json 使用。provider=mock 可离线跑通全链路；接自己的平台时新增 provider 并改这里。",
+  "provider": "mock",
+  "stale_minutes": 20,
+  "supabase": {
+    "url": "http://127.0.0.1:54321",
+    "anon_key": "local-anon-key"
+  },
+  "vehicles": [
+    {
+      "alias": "DEMO-001",
+      "name": "demo-001"
+    },
+    {
+      "alias": "DEMO-002",
+      "name": "demo-002"
+    },
+    {
+      "alias": "DEMO-003",
+      "name": "demo-003"
+    },
+    {
+      "alias": "DEMO-004",
+      "name": "demo-004"
+    },
+    {
+      "alias": "DEMO-005",
+      "name": "demo-005"
+    },
+    {
+      "alias": "DEMO-006",
+      "name": "demo-006"
+    }
+  ]
+}

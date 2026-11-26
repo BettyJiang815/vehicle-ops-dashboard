@@ -1,0 +1,33 @@
+# 本地开发用：Postgres + PostgREST，不依赖 Supabase 云
+# 用法：docker compose up -d && curl localhost:54321/vehicle_status
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "54322:5432"
+    volumes:
+      - ./supabase/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  rest:
+    image: postgrest/postgrest:v12.2.0
+    environment:
+      PGRST_DB_URI: postgres://postgres:postgres@db:5432/postgres
+      PGRST_DB_SCHEMAS: public
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_JWT_SECRET: super-secret-jwt-token-with-at-least-32-characters
+    ports:
+      - "54321:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+# 本地 anon key（与上面的 JWT secret 配对，只用于本机开发）
+# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlzcyI6InN1cGFiYXNlIiwiaWF0IjoxNzM1Njg5NjAwLCJleHAiOjIwNTEyMjI0MDB9.jnYSCR7WDTK0pSxiFFAq_t41MQbo1hq6h2zsuTDONA8
